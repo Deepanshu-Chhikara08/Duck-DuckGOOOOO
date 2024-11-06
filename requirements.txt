@@ -1,4 +1,6 @@
 streamlit
+streamlit-chat
+streamlit-extras
 transformers
-huggingface_hub
 torch
+nltk 
