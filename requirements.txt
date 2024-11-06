@@ -4,3 +4,5 @@ streamlit-extras
 transformers
 torch
 nltk 
+transformers
+huggingface_hub
