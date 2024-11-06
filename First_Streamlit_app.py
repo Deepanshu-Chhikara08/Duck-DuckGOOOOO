@@ -16,7 +16,8 @@ from transformers import pipeline
 from huggingface_hub import login
 import torch
 import os
-
+import pandas as pd
+import numpy as np
 # Free up GPU memory
 torch.cuda.empty_cache()
 
