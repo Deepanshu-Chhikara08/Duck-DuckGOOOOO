@@ -1,42 +1,35 @@
-# import streamlit as st
-
-# tti = st.Page("page_1.py", title="Text GenAI Model", icon=":material/psychology:")
-# itt = st.Page("page_2.py", title="Text to Image Model", icon=":material/psychology:")
-
-# pg = st.navigation({
-#     "Text to Image":[tti, itt],
-    
-# })
-
-# st.set_page_config(page_title="GenAI Models")
-# pg.run()
-
 import streamlit as st
 from transformers import pipeline
 from huggingface_hub import login
 import torch
 import os
-import pandas as pd
-import numpy as np
-access_token_read = st.secrets["HUGGINGFACE_TOKEN"]
-# Free up GPU memory
+
+# Set page configuration
+st.set_page_config(page_title="Text GenAI Model", page_icon="🤖")
+st.title("Text GenAI Model")
+st.subheader("Answer Random Questions Using Hugging Face Models")
+
+# Fetch Hugging Face token from Streamlit Secrets
+access_token_read = st.secrets["HUGGINGFACE_TOKEN"]  # Ensure this is set in your Streamlit Cloud Secrets
+
+# Free up GPU memory (if using GPU)
 torch.cuda.empty_cache()
 
 # Set environment variable to avoid fragmentation
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 
-# access_token_read = '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'
-# login(token = access_token_read)
+# Login to Hugging Face Hub using the access token
+login(token=access_token_read)
 
-# device = 0 if torch.cuda.is_available() else -1
-pipe = pipeline("text-generation", model="HuggingFaceTB/SmolLM2-1.7B-Instruct")
+# Initialize the text generation pipeline with GPT-2 model
+pipe = pipeline("text-generation", model="gpt2", device=-1)  # Using CPU
 
-st.title("Text GenAI Model")
-text = st.text_input("Enter Your Prompt")
-messages = [
-    {"role": "user"},
-]
-messages[0]["content"] = text
+# Input from the user
+text = st.text_input("Ask a Random Question")
 
-gentext = pipe(messages, max_new_tokens=100)
-st.write(gentext)[0]["content"]
+if text:
+    # Generate text based on the random question
+    response = pipe(f"Answer the question: {text}", max_length=150, num_return_sequences=1)
+    
+    # Display the generated response
+    st.write(f"Answer: {response[0]['generated_text']}")
