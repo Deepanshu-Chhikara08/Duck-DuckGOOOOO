@@ -39,4 +39,4 @@ messages = [
 messages[0]["content"] = text
 
 gentext = pipe(messages, max_new_tokens=100)
-st.write(gentext)[1]["content"]
+st.write(gentext)[0]["content"]
