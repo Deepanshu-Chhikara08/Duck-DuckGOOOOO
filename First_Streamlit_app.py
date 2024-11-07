@@ -18,14 +18,15 @@ import torch
 import os
 import pandas as pd
 import numpy as np
+access_token_read = st.secrets["HUGGINGFACE_TOKEN"]
 # Free up GPU memory
 torch.cuda.empty_cache()
 
 # Set environment variable to avoid fragmentation
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 
-access_token_read = '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'
-login(token = access_token_read)
+# access_token_read = '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'
+# login(token = access_token_read)
 
 # device = 0 if torch.cuda.is_available() else -1
 pipe = pipeline("text-generation", model="HuggingFaceTB/SmolLM2-1.7B-Instruct")
